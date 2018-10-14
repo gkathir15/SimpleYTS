@@ -70,7 +70,7 @@ class Movies {
   int year;
   String rating;
   int runtime;
-  List<String> genres;
+ // List<String> genres;
   String summary;
   String descriptionFull;
   String synopsis;
@@ -98,7 +98,7 @@ class Movies {
         this.year,
         this.rating,
         this.runtime,
-        this.genres,
+       // this.genres,
         this.summary,
         this.descriptionFull,
         this.synopsis,
@@ -126,7 +126,7 @@ class Movies {
     year = json['year'];
     rating = json['rating'].toString();
     runtime = json['runtime'];
-    genres = json['genres'].cast<String>();
+   // genres = json['genres'].cast<List<String>>();
     summary = json['summary'];
     descriptionFull = json['description_full'];
     synopsis = json['synopsis'];
@@ -161,7 +161,7 @@ class Movies {
     data['year'] = this.year;
     data['rating'] = this.rating;
     data['runtime'] = this.runtime;
-    data['genres'] = this.genres;
+   // data['genres'] = this.genres;
     data['summary'] = this.summary;
     data['description_full'] = this.descriptionFull;
     data['synopsis'] = this.synopsis;
