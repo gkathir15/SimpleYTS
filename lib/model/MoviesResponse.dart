@@ -33,6 +33,7 @@ class Data {
   int pageNumber;
   List<Movies> movies;
 
+
   Data({this.movieCount, this.limit, this.pageNumber, this.movies});
 
   Data.fromJson(Map<String, dynamic> json) {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'model/MoviesResponse.dart';
+import 'movieDetail.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -59,25 +60,23 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
               child: new Center(
                   child: new Column(
                 // Stretch the cards in horizontal axis
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   new InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>new MovieDetail(moviesList[index].id.toString())));
+                    },
                     child: new Card(
-                      child: new Container(
-                        child: new Text(
-                          // Read the name field value and set it in the Text widget
-                          //data.status,
-                          //"working",
-                          moviesList[index].title,
-                          // set some style to text
-                          style: new TextStyle(
-                              fontSize: 20.0, color: Colors.lightBlueAccent),
-                        ),
-                        // added padding
-                        padding: const EdgeInsets.all(15.0),
+                      child: new Column(
+                        children: <Widget>[
+                          new Text(moviesList[index].title,style: new TextStyle(fontSize: 20.0, color: Colors.black)),
+                          new Text("Rating "+moviesList[index].rating,style: new TextStyle(fontSize: 15.0, color: Colors.black)),
+                          new Image.network(moviesList[index].mediumCoverImage,width: 200.0,height: 400.0,),
+                          new Text(moviesList[index].summary,style: new TextStyle(fontSize: 16.0, color: Colors.black,),softWrap: true,),
+                        ],                        
                       ),
-                    ),
-                  )
+                    )
+                  ),
                 ],
               )),
             );
