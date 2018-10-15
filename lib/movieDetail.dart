@@ -5,32 +5,37 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'model/MoviesResponse.dart';
-
-final Movies movies=new Movies();
-final String id="";
-
-class MovieDetail extends StatefulWidget {
+import 'package:share/share.dart';
+//import 'package:flutter_share/flutter_share.dart';
 
 
-  MovieDetail(id);
+final String id = "";
+
+class MovieDetail extends StatelessWidget {
+  final Movies movies;
+  MovieDetail({Key key, @required this.movies}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Here is just a placeholder for a list of mock units
     return Scaffold(
       appBar: AppBar(
-        title: Text(id),
         centerTitle: true,
+        title: Text("Second Screen"),
       ),
       body: Center(
-        child: new Text(movies.summary),
+        child: new Column(
+          children: <Widget>[
+            new Image.network(movies.backgroundImage),
+            new Text(movies.summary),
+            new InkWell(
+              onTap: () {
+                Share.share(movies.torrents[0].url);
+              },
+              child: new Text("Torrent" + movies.titleEnglish),
+            )
+          ],
+        ),
       ),
     );
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-
   }
 }

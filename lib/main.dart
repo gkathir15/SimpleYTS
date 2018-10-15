@@ -25,37 +25,34 @@ class MyGetHttpData extends StatefulWidget {
 
 // Create the state for our stateful widget
 class MyGetHttpDataState extends State<MyGetHttpData> {
-
   fetchMovies(String page) async {
-    final response = await http.get(url+page);
+    final response = await http.get(url + page);
     Map responseMap = json.decode(response.body);
     print(response.body);
     setState(() {
       data = new MoviesResponse.fromJson(responseMap);
       moviesList.addAll(data.data.movies);
-      mLimit = mLimit+data.data.limit;
-     if(data.data.pageNumber !=1)
-       {
-         mPage = mPage+data.data.pageNumber;
-       }
+      mLimit = mLimit + data.data.limit;
+      if (data.data.pageNumber != 1) {
+        mPage = mPage + data.data.pageNumber;
+      }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        centerTitle: true,
         title: new Text("YTS Browse Movies"),
       ),
       // Create a Listview and load the data when available
       body: new ListView.builder(
           itemCount: mLimit,
           itemBuilder: (BuildContext context, int index) {
-            if(index==mLimit-10)
-              {
-                fetchMovies((mPage++).toString());
-              }
+            if (index == mLimit - 10) {
+              fetchMovies((mPage++).toString());
+            }
             return new Container(
               child: new Center(
                   child: new Column(
@@ -63,20 +60,36 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   new InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context)=>new MovieDetail(moviesList[index].id.toString())));
-                    },
-                    child: new Card(
-                      child: new Column(
-                        children: <Widget>[
-                          new Text(moviesList[index].title,style: new TextStyle(fontSize: 20.0, color: Colors.black)),
-                          new Text("Rating "+moviesList[index].rating,style: new TextStyle(fontSize: 15.0, color: Colors.black)),
-                          new Image.network(moviesList[index].mediumCoverImage,width: 200.0,height: 400.0,),
-                          new Text(moviesList[index].summary,style: new TextStyle(fontSize: 16.0, color: Colors.black,),softWrap: true,),
-                        ],                        
-                      ),
-                    )
-                  ),
+                      onTap: () {
+                        Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (BuildContext context) => new MovieDetail(
+                                movies: moviesList[index] as Movies)));
+                      },
+                      child: new Card(
+                        child: new Column(
+                          children: <Widget>[
+                            new Text(moviesList[index].title,
+                                style: new TextStyle(
+                                    fontSize: 20.0, color: Colors.black)),
+                            new Text("Rating " + moviesList[index].rating,
+                                style: new TextStyle(
+                                    fontSize: 15.0, color: Colors.black)),
+                            new Image.network(
+                              moviesList[index].mediumCoverImage,
+                              width: 200.0,
+                              height: 400.0,
+                            ),
+                            new Text(
+                              moviesList[index].summary,
+                              style: new TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+                              ),
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
+                      )),
                 ],
               )),
             );
