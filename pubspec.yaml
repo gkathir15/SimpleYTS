@@ -25,6 +25,7 @@ dependencies:
   share: ^0.5.3
   url_launcher: ^4.0.1
   flutter_share: ^0.0.4
+  advanced_share: ^0.1.0
 
 
 
