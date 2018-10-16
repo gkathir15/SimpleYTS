@@ -29,14 +29,17 @@ class MovieDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Second Screen"),
+        title: Text(movies.title),
       ),
       body: Center(
         child: new Column(
           children: <Widget>[
-            new Image.network(movies.backgroundImage),
-            new Text(
-              movies.summary,
+            new Image.network(movies.mediumCoverImage),
+            Padding(
+              padding: EdgeInsets.all(6.0),
+              child: new Text(
+                movies.descriptionFull,
+              ),
             ),
             new InkWell(
               onTap: () {
@@ -45,10 +48,14 @@ class MovieDetail extends StatelessWidget {
 
                 // AdvancedShare.generic(movies.title,movies.torrents[0].url,Link to Torrent,)
               },
-              child: new Text(
-                "Torrent" + movies.titleEnglish,
-                style: new TextStyle(
-                  fontSize: 15.0,
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: new Text(
+                  "Click to get Torrent:  " +
+                      movies.titleEnglish +
+                      "  Size: " +
+                      movies.torrents[0].size,
+                  style: new TextStyle(fontSize: 20.0, color: Colors.indigo),
                 ),
               ),
             )
