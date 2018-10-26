@@ -41,24 +41,55 @@ class MovieDetail extends StatelessWidget {
                 movies.descriptionFull,
               ),
             ),
-            new InkWell(
-              onTap: () {
-                _launchInBrowser(movies.torrents[0].url);
-                // Share.share("data:text/link;" + movies.torrents[0].url);
-
-                // AdvancedShare.generic(movies.title,movies.torrents[0].url,Link to Torrent,)
-              },
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: new Text(
-                  "Click to get Torrent:  " +
-                      movies.titleEnglish +
-                      "  Size: " +
-                      movies.torrents[0].size,
-                  style: new TextStyle(fontSize: 20.0, color: Colors.indigo),
-                ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: new ListView.builder(
+                    itemCount: movies.torrents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                          child: new Center(
+                              child: new Column(
+                                  // Stretch the cards in horizontal axis
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: <Widget>[
+                            new Row(
+                              children: <Widget>[
+                                new Text(movies.torrents[index].quality,
+                                    style: new TextStyle(
+                                        fontSize: 15.0, color: Colors.black)),
+                                new Text(movies.torrents[index].size,
+                                    style: new TextStyle(
+                                        fontSize: 15.0, color: Colors.black)),
+                                new Text(
+                                    movies.torrents[index].seeds.toString(),
+                                    style: new TextStyle(
+                                        fontSize: 15.0, color: Colors.black)),
+                              ],
+                            )
+                          ])));
+                    }),
               ),
             )
+//            new InkWell(
+//              onTap: () {
+//                _launchInBrowser(movies.torrents[0].url);
+//                // Share.share("data:text/link;" + movies.torrents[0].url);
+//
+//                // AdvancedShare.generic(movies.title,movies.torrents[0].url,Link to Torrent,)
+//              },
+//              child: Padding(
+//                padding: EdgeInsets.all(8.0),
+//                child: new Text(
+//                  "Click to get Torrent:  " +
+//                      movies.titleEnglish +
+//                      "  Size: " +
+//                      movies.torrents[0].size,
+//                  style: new TextStyle(fontSize: 20.0, color: Colors.indigo),
+//                ),
+//              ),
+//            )
           ],
         ),
       ),
