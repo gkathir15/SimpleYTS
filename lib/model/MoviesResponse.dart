@@ -33,7 +33,6 @@ class Data {
   int pageNumber;
   List<Movies> movies;
 
-
   Data({this.movieCount, this.limit, this.pageNumber, this.movies});
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -71,7 +70,7 @@ class Movies {
   int year;
   String rating;
   int runtime;
- // List<String> genres;
+  // List<String> genres;
   String summary;
   String descriptionFull;
   String synopsis;
@@ -90,31 +89,31 @@ class Movies {
 
   Movies(
       {this.id,
-        this.url,
-        this.imdbCode,
-        this.title,
-        this.titleEnglish,
-        this.titleLong,
-        this.slug,
-        this.year,
-        this.rating,
-        this.runtime,
-       // this.genres,
-        this.summary,
-        this.descriptionFull,
-        this.synopsis,
-        this.ytTrailerCode,
-        this.language,
-        this.mpaRating,
-        this.backgroundImage,
-        this.backgroundImageOriginal,
-        this.smallCoverImage,
-        this.mediumCoverImage,
-        this.largeCoverImage,
-        this.state,
-        this.torrents,
-        this.dateUploaded,
-        this.dateUploadedUnix});
+      this.url,
+      this.imdbCode,
+      this.title,
+      this.titleEnglish,
+      this.titleLong,
+      this.slug,
+      this.year,
+      this.rating,
+      this.runtime,
+      // this.genres,
+      this.summary,
+      this.descriptionFull,
+      this.synopsis,
+      this.ytTrailerCode,
+      this.language,
+      this.mpaRating,
+      this.backgroundImage,
+      this.backgroundImageOriginal,
+      this.smallCoverImage,
+      this.mediumCoverImage,
+      this.largeCoverImage,
+      this.state,
+      this.torrents,
+      this.dateUploaded,
+      this.dateUploadedUnix});
 
   Movies.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -127,7 +126,7 @@ class Movies {
     year = json['year'];
     rating = json['rating'].toString();
     runtime = json['runtime'];
-   // genres = json['genres'].cast<List<String>>();
+    // genres = json['genres'].cast<List<String>>();
     summary = json['summary'];
     descriptionFull = json['description_full'];
     synopsis = json['synopsis'];
@@ -162,7 +161,7 @@ class Movies {
     data['year'] = this.year;
     data['rating'] = this.rating;
     data['runtime'] = this.runtime;
-   // data['genres'] = this.genres;
+    // data['genres'] = this.genres;
     data['summary'] = this.summary;
     data['description_full'] = this.descriptionFull;
     data['synopsis'] = this.synopsis;
@@ -197,14 +196,14 @@ class Torrents {
 
   Torrents(
       {this.url,
-        this.hash,
-        this.quality,
-        this.seeds,
-        this.peers,
-        this.size,
-        this.sizeBytes,
-        this.dateUploaded,
-        this.dateUploadedUnix});
+      this.hash,
+      this.quality,
+      this.seeds,
+      this.peers,
+      this.size,
+      this.sizeBytes,
+      this.dateUploaded,
+      this.dateUploadedUnix});
 
   Torrents.fromJson(Map<String, dynamic> json) {
     url = json['url'];
@@ -241,9 +240,9 @@ class Meta {
 
   Meta(
       {this.serverTime,
-        this.serverTimezone,
-        this.apiVersion,
-        this.executionTime});
+      this.serverTimezone,
+      this.apiVersion,
+      this.executionTime});
 
   Meta.fromJson(Map<String, dynamic> json) {
     serverTime = json['server_time'];
