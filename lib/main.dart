@@ -83,7 +83,7 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
         centerTitle: true,
         title: new Text(
           "YTS Browse Movies",
-          style: customStyles.appBarStyle,
+          style: CustomStyles.appBarStyle,
         ),
         backgroundColor: Colors.black,
         actions: <Widget>[
@@ -121,9 +121,9 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
                           new Text(moviesList[index].titleEnglish,
                               overflow: TextOverflow.ellipsis,
                               softWrap: true,
-                              style:customStyles.smallTxtStyle),
+                              style:CustomStyles.smallTxtStyle),
                           new Text("Rating " + moviesList[index].rating,
-                              style: customStyles.smallTxtStyle),
+                              style: CustomStyles.smallTxtStyle),
                         ],
                       ))),
             );
