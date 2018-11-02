@@ -1,3 +1,7 @@
+// Copyright 2018 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'model/MoviesResponse.dart';
@@ -18,8 +22,6 @@ class MovieDetail extends StatelessWidget {
       throw 'Could not launch $url';
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +56,8 @@ class MovieDetail extends StatelessWidget {
                             "Rating " + movies.rating,
                             style: CustomStyles.movieDetail,
                           ),
-
                           new Text(movies.year.toString(),
                               style: CustomStyles.movieDetail),
-
-
                         ],
                       )),
                 ],
@@ -68,22 +67,24 @@ class MovieDetail extends StatelessWidget {
                 style: CustomStyles.movieDetail,
               ),
               new Expanded(
-                child:new ListView.builder(
+                child: new ListView.builder(
                     itemCount: movies.torrents.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return new Container(
                         child: new Chip(
-                          label:new InkWell(child:  new Text(
-                              movies.torrents[index].quality),onTap:(){
-                            _launchInBrowser(magnetPrefix+movies.torrents[index].hash);
-                          },),
+                          label: new InkWell(
+                            child: new Text(movies.torrents[index].quality),
+                            onTap: () {
+                              _launchInBrowser(
+                                  magnetPrefix + movies.torrents[index].hash);
+                            },
+                          ),
                         ),
                       );
-                    }),)
+                    }),
+              )
             ])));
   }
 }
-
-//onTap:(){ _launchInBrowser(magnetPrefix+movies.torrents[index].hash);})
