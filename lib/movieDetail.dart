@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'model/MoviesResponse.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'styles/customStyles.dart';
+import 'dart:io';
 
 final String id = "";
 String magnetPrefix = 'magnet:?xt=urn:btih:';
@@ -17,7 +18,7 @@ class MovieDetail extends StatelessWidget {
 
   Future<Null> _launchInBrowser(String url) async {
     if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: true, forceWebView: false);
+      await launch(url, forceSafariVC: !Platform.isAndroid, forceWebView: false);
     } else {
       throw 'Could not launch $url';
     }
@@ -73,7 +74,8 @@ class MovieDetail extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return new Container(
-                        child: new Chip(
+                        child: new Chip(padding:EdgeInsets.all(1.0),
+                          avatar: new Image.asset("png/magnet.png"),
                           label: new InkWell(
                             child: new Text(movies.torrents[index].quality),
                             onTap: () {

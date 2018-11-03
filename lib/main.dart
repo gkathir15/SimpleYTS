@@ -1,14 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'model/MoviesResponse.dart';
 import 'movieDetail.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'styles/customStyles.dart';
+import 'search.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -36,10 +35,6 @@ class MyGetHttpData extends StatefulWidget {
 // Create the state for our stateful widget
 class MyGetHttpDataState extends State<MyGetHttpData> {
   _fetchMovies(String page) async {
-    Widget appBarTitle;
-    final TextEditingController _filter = new TextEditingController();
-
-    fetchMovies(String page) async {
       final response = await http.get(url + page);
       Map responseMap = json.decode(response.body);
       print(response.body);
@@ -53,31 +48,8 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
       });
     }
 
-    _showToast(String msg) {
-      Fluttertoast.showToast(
-          msg: msg,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 1);
-    }
 
-    searchwidgetFunc() {
-      setState(() {
-        if (searchIcon.icon == Icons.search) {
-          searchIcon = new Icon(Icons.close);
-          appBarTitle = new TextField(
-            controller: _filter,
-            decoration: new InputDecoration(
-                prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
-          );
-        } else {
-          searchIcon = new Icon(Icons.search);
-          appBarTitle = new Text('Search Example');
-          _filteredMovies = moviesList as Set<Movies>;
-          _filteredMovies.clear();
-        }
-      });
-    }
+
 
     @override
     Widget build(BuildContext context) {
@@ -90,10 +62,16 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
           ),
           backgroundColor: Colors.black,
           actions: <Widget>[
-            new IconButton(
-              icon: searchIcon,
-              onPressed: searchwidgetFunc,
-            ),
+            IconButton(
+                icon: Icon(Icons.search,color: Colors.white,),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SearchList(),
+                      ));
+                }
+                ),
           ],
         ),
         // Create a Listview and load the data when available
@@ -110,7 +88,8 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
                 child: new InkWell(
                     onTap: () {
                       Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (BuildContext context) => new MovieDetail(
+                          builder: (BuildContext context) =>
+                          new MovieDetail(
                               movies: moviesList[index] as Movies)));
                     },
                     child: new Card(
@@ -121,7 +100,7 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
                             new Center(
                               child: new CachedNetworkImage(
                                   placeholder:
-                                      new Image.memory(kTransparentImage),
+                                  new Image.memory(kTransparentImage),
                                   imageUrl: moviesList[index].mediumCoverImage),
                             ),
                             new Text(moviesList[index].titleEnglish,
@@ -146,8 +125,7 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-  }
-}
+
+
+
+
