@@ -8,6 +8,7 @@ import 'model/MoviesResponse.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'styles/customStyles.dart';
 import 'dart:io';
+import 'suggestions.dart';
 
 final String id = "";
 String magnetPrefix = 'magnet:?xt=urn:btih:';
@@ -34,6 +35,18 @@ class MovieDetail extends StatelessWidget {
             movies.title,
             style: CustomStyles.appBarStyle,
           ),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.more,color: Colors.white,),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => suggestions(movieId:movies.id),
+                      ));
+                }
+            ),
+          ],
         ),
         body: new Container(
             color: Colors.black54,
@@ -74,8 +87,9 @@ class MovieDetail extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return new Container(
+                        child: new Padding(padding: EdgeInsets.all(3.0),
                         child: new Chip(padding:EdgeInsets.all(1.0),
-                          avatar: new Image.asset("png/magnet.png"),
+                          avatar: new Image.asset("assets/png/magnet.png"),
                           label: new InkWell(
                             child: new Text(movies.torrents[index].quality),
                             onTap: () {
@@ -83,6 +97,7 @@ class MovieDetail extends StatelessWidget {
                                   magnetPrefix + movies.torrents[index].hash);
                             },
                           ),
+                        ),
                         ),
                       );
                     }),

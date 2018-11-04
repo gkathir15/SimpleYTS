@@ -79,11 +79,12 @@ class _SearchState extends State<SearchList> {
     return Scaffold(
         key: key,
         appBar: AppBar(
+          backgroundColor: Colors.black,
           centerTitle: true,
           title: TextField(
             autofocus: true,
             controller: _searchQuery,
-            style: TextStyle(color: Colors.white),
+            style:CustomStyles.appBarStyle,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: Padding(

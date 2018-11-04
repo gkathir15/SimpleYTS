@@ -8,6 +8,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'styles/customStyles.dart';
 import 'search.dart';
+import 'util/commonHelper.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -37,7 +38,7 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
   _fetchMovies(String page) async {
       final response = await http.get(url + page);
       Map responseMap = json.decode(response.body);
-      print(response.body);
+      commonHelper.prettyPrint(response.body);
       setState(() {
         data = new MoviesResponse.fromJson(responseMap);
         moviesList.addAll(data.data.movies);
