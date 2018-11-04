@@ -1,38 +1,30 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:codelab_01/model/MoviesResponse.dart';
 import 'package:codelab_01/movieDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'styles/customStyles.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'util/commonHelper.dart';
 
-int movieId = 10;
 
+getSuggestions _getsuggestions = new getSuggestions();
 class suggestions extends StatefulWidget {
 
+  final int movieId;
 
-
-  static getMovieId()
-   {return movieId;}
-  getSuggestions _getsuggestions = new getSuggestions();
+  getid()
+  {
+    return movieId;
+  }
 
   @override
   getSuggestions createState() => _getsuggestions;
-  suggestions( {Key key,  movieId }) : super(key: key);
-
-
+  suggestions({Key key, this.movieId}) : super(key: key);
 
 }
 
-class getSuggestions extends State<suggestions>
-{
-
-
-
-
+class getSuggestions extends State<suggestions> {
   String _url = "https://yts.am/api/v2/movie_suggestions.json?movie_id=";
   MoviesResponse data;
   List moviesList = new List();
@@ -46,7 +38,6 @@ class getSuggestions extends State<suggestions>
     setState(() {
       moviesList.addAll(data.data.movies);
     });
-
   }
 
   @override
@@ -80,7 +71,8 @@ class getSuggestions extends State<suggestions>
                       child: new Column(
                         children: <Widget>[
                           new Center(
-                            child: new Image.network(moviesList[index].mediumCoverImage),
+                            child: new Image.network(
+                                moviesList[index].mediumCoverImage),
                           ),
                           new Text(moviesList[index].titleEnglish,
                               overflow: TextOverflow.ellipsis,
@@ -95,11 +87,9 @@ class getSuggestions extends State<suggestions>
     );
   }
 
- @override
- void initState() {
-   super.initState();
-   _fetchMovies(movieId);
- }
-
-
+  @override
+  void initState() {
+    super.initState();
+    _fetchMovies(_getsuggestions.widget!=null?_getsuggestions.widget.getid():10);
+  }
 }
