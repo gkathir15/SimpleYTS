@@ -15,7 +15,10 @@ class suggestions extends StatefulWidget {
 
   getid()
   {
+    if(movieId!=null||movieId!=0)
     return movieId;
+    else
+      return 10;
   }
 
   @override
