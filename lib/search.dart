@@ -5,6 +5,7 @@ import 'styles/customStyles.dart';
 import 'movieDetail.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'constants/Constants.dart';
 
 class SearchList extends StatefulWidget {
   SearchList({Key key}) : super(key: key);
@@ -12,7 +13,6 @@ class SearchList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _SearchState();
 }
-
 class _SearchState extends State<SearchList> {
   final key = GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = TextEditingController();
@@ -60,18 +60,22 @@ class _SearchState extends State<SearchList> {
         if (repos != null) {
           moviesList = repos;
         } else {
-          _error = 'Error searching repos';
+          _error = 'Error searching Movies';
         }
       });
     }
   }
 
   Future<List<Movies>> searchMovies(String query) async {
-    final response = await http.get(_url + query);
-    Map responseMap = json.decode(response.body);
-    print(response.body);
+    if(!Constants.mapBase.containsKey(query)){
+      final response = await http.get(_url + query);
+      Map responseMap = json.decode(response.body);
+      print(response.body);
       data = new MoviesResponse.fromJson(responseMap);
-      return data.data.movies;
+      Constants.mapBase[query] = data;
+      return data.data.movies;}
+    else
+      return Constants.mapBase[query].data.movies;
   }
 
   @override
@@ -83,6 +87,7 @@ class _SearchState extends State<SearchList> {
           centerTitle: true,
           title: TextField(
             autofocus: true,
+            textInputAction: TextInputAction.search,
             controller: _searchQuery,
             style:CustomStyles.appBarStyle,
             decoration: InputDecoration(
@@ -93,7 +98,7 @@ class _SearchState extends State<SearchList> {
                       Icons.search,
                       color: Colors.white,
                     )),
-                hintText: "Search repositories...",
+                hintText: "Search movies...",
                 hintStyle: TextStyle(color: Colors.white)),
           ),
         ),
@@ -141,6 +146,12 @@ class _SearchState extends State<SearchList> {
             );
           });
     }
+  }
+
+  @override
+  void dispose() {
+    _searchQuery.dispose();
+    super.dispose();
   }
 }
 
