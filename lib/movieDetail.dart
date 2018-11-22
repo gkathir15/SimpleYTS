@@ -48,8 +48,11 @@ class MovieDetail extends StatelessWidget {
             ),
           ],
         ),
-        body: new Container(
-            color: Colors.black54,
+        body: new SingleChildScrollView(
+
+    child: new ConstrainedBox(
+    constraints: new BoxConstraints(minHeight: 300.00,maxHeight: 1000.00),
+            //color: Colors.black54,
             child: new Column(children: <Widget>[
               new Row(
                 children: <Widget>[
@@ -81,10 +84,12 @@ class MovieDetail extends StatelessWidget {
                 style: CustomStyles.movieDetail,
               ),
               new Expanded(
-                child: new ListView.builder(
+                child: new GridView.builder(
+                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3, childAspectRatio: 1.0),
                     itemCount: movies.torrents.length,
                     shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
+                    //scrollDirection: Axis.vertical,
                     itemBuilder: (BuildContext context, int index) {
                       return new Container(
                         child: new Padding(padding: EdgeInsets.all(3.0),
@@ -102,6 +107,6 @@ class MovieDetail extends StatelessWidget {
                       );
                     }),
               )
-            ])));
-  }
-}
+            ])))
+  );
+}}

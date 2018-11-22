@@ -1,14 +1,11 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'model/MoviesResponse.dart';
-import 'movieDetail.dart';
-import 'package:transparent_image/transparent_image.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'styles/customStyles.dart';
 import 'search.dart';
 import 'util/commonHelper.dart';
+import 'widgets/MovieTile.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -84,35 +81,7 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
               if (index == mLimit - 10) {
                 _fetchMovies((mPage++).toString());
               }
-              return new Container(
-                color: Colors.black54,
-                child: new InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          new MovieDetail(
-                              movies: moviesList[index] as Movies)));
-                    },
-                    child: new Card(
-                        color: Colors.black,
-                        elevation: 3.0,
-                        child: new Column(
-                          children: <Widget>[
-                            new Center(
-                              child: new CachedNetworkImage(
-                                  placeholder:
-                                  new Image.memory(kTransparentImage),
-                                  imageUrl: moviesList[index].mediumCoverImage),
-                            ),
-                            new Text(moviesList[index].titleEnglish,
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                                style: CustomStyles.smallTxtStyle),
-                            new Text("Rating " + moviesList[index].rating,
-                                style: CustomStyles.smallTxtStyle),
-                          ],
-                        ))),
-              );
+              return new MovieTile(moviesData: moviesList[index],);
             }),
       );
     }
