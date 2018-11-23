@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'model/MoviesResponse.dart';
 import 'styles/customStyles.dart';
-import 'movieDetail.dart';
+import 'package:codelab_01/widgets/MovieTile.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'constants/Constants.dart';
@@ -118,32 +118,7 @@ class _SearchState extends State<SearchList> {
               crossAxisCount: 3, childAspectRatio: .60),
           itemCount: moviesList.length,
           itemBuilder: (BuildContext context, int index) {
-            return new Container(
-              color: Colors.black54,
-              child: new InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                        new MovieDetail(
-                            movies: moviesList[index])));
-                  },
-                  child: new Card(
-                      color: Colors.black,
-                      elevation: 3.0,
-                      child: new Column(
-                        children: <Widget>[
-                          new Center(
-                            child: new Image.network(moviesList[index].mediumCoverImage,),
-                          ),
-                          new Text(moviesList[index].titleEnglish,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                              style: CustomStyles.smallTxtStyle),
-                          new Text("Rating " + moviesList[index].rating,
-                              style: CustomStyles.smallTxtStyle),
-                        ],
-                      ))),
-            );
+            return new MovieTile(moviesData: moviesList[index],);
           });
     }
   }
