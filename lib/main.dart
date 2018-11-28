@@ -52,6 +52,7 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
     @override
     Widget build(BuildContext context) {
       return new Scaffold(
+        bottomNavigationBar: new BottomNavigationBar(items: <BottomNavigationBarItem>[new BottomNavigationBarItem(icon: new Icon(Icons.movie),title: new Text('Movies')),new BottomNavigationBarItem(icon: new Icon(Icons.star),title: new Text('Favourites'))],),
         appBar: new AppBar(
           centerTitle: true,
           title: new Text(

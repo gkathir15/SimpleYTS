@@ -30,8 +30,7 @@ class MovieTile extends StatelessWidget
                           children: <Widget>[
                             new Center(
                               child: new CachedNetworkImage(
-                                  placeholder:
-                                  new Image.memory(kTransparentImage),
+                                  placeholder:new Image.memory(kTransparentImage),
                                   imageUrl: moviesData.mediumCoverImage),
                             ),
                             new Text(moviesData.titleEnglish,

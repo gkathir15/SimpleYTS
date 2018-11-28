@@ -7,3 +7,19 @@
 build/
 
 .flutter-plugins
+pubspec.lock
+android/app/src/main/gen/com/guru/codelab01/Manifest.java
+pubspec.lock
+yts.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/codeStyles/Project.xml
+.idea/libraries/Dart_Packages.xml
+.idea/libraries/Dart_SDK.xml
+.idea/libraries/Flutter_Plugins.xml
+android/app/src/main/gen/com/guru/codelab01/R.java
+pubspec.lock
+pubspec.lock
+.gitignore
