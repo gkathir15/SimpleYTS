@@ -21,104 +21,113 @@ class MovieDetail extends StatelessWidget {
 
   Future<Null> _launchInBrowser(String url) async {
     if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: !Platform.isAndroid, forceWebView: false);
+      await launch(url,
+          forceSafariVC: !Platform.isAndroid, forceWebView: false);
     } else {
       throw 'Could not launch $url';
     }
   }
 
-  String youtubeId(Movies movies){
+  String youtubeId(Movies movies) {
     String id = "B2EI65ZEqYQ";
-    if(movies.ytTrailerCode!=null&&movies.ytTrailerCode!="")
-    id = movies.ytTrailerCode; 
+    if (movies.ytTrailerCode != null && movies.ytTrailerCode != "")
+      id = movies.ytTrailerCode;
 
     return id;
   }
 
- 
-
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.black,
-              title: Text(
-                movies.title,
-                style: CustomStyles.appBarStyle,
-              ),
-              actions: <Widget>[
-                IconButton(icon: Icon(Icons.videocam),onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) =>Youtube(id: youtubeId(movies),)));
-                },),
-                IconButton(
-                    icon: Icon(Icons.more,color: Colors.white,),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => suggestions(movieId:movies.id),
-                          ));
-                    }
-                ),
-              ],
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.black,
+          title: Text(
+            movies.title,
+            style: CustomStyles.appBarStyle,
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.videocam),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Youtube(
+                              id: youtubeId(movies),
+                            )));
+              },
             ),
-            body: new SingleChildScrollView(child: new ConstrainedBox(
-    constraints: new BoxConstraints(minHeight: 300.00,maxHeight: 1000.00),
-            //color: Colors.black54,
-            child: new Column(children: <Widget>[              new Row(
+            IconButton(
+                icon: Icon(
+                  Icons.more,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => suggestions(movieId: movies.id),
+                      ));
+                }),
+          ],
+        ),
+        body: new Container(
+            color: Colors.black,
+            child: new ListView(
+                scrollDirection: Axis.vertical,
+                physics: ScrollPhysics(parent: BouncingScrollPhysics()),
                 children: <Widget>[
-                  new Image.network(movies.mediumCoverImage),
-                  new Padding(
-                      padding: EdgeInsets.all(1.0),
-                      child: new Column(
-                        children: <Widget>[
-                          new Text(
-                            movies.title,
-                            style: CustomStyles.movieDetail,
-                          ),
-                          new Text(
-                            movies.language,
-                            style: CustomStyles.movieDetail,
-                          ),
-                          new Text(
-                            "Rating " + movies.rating,
-                            style: CustomStyles.movieDetail,
-                          ),
-                          new Text(movies.year.toString(),
-                              style: CustomStyles.movieDetail),
-                        ],
-                      )),
-                ],
-              ),
-              new Text(
-                movies.descriptionFull,
-                style: CustomStyles.movieDetail,
-              ),
-              new Expanded(
-                child: new GridView.builder(
-                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3, childAspectRatio: 1.0),
-                    itemCount: movies.torrents.length,
-                    shrinkWrap: true,
-                    //scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      return new Container(
-                        child: new Padding(padding: EdgeInsets.all(3.0),
-                        child: new Chip(padding:EdgeInsets.all(1.0),
-                          avatar: new Image.asset("assets/png/magnet.png"),
-                          label: new InkWell(
-                            child: new Text(movies.torrents[index].quality),
-                            onTap: () {
-                              _launchInBrowser(
-                                  magnetPrefix + movies.torrents[index].hash);
-                            },
-                          ),
-                        ),
-                        ),
-                      );
-                    }),
-              )
-            ])))
-  );
-}}
+                  new Column(children: <Widget>[
+                    new Image.network(movies.mediumCoverImage),
+                    new Padding(
+                        padding: EdgeInsets.all(1.0),
+                        child: new Column(
+                          children: <Widget>[
+                            new Text(
+                              movies.language,
+                              style: CustomStyles.movieDetail,
+                            ),
+                            new Text(
+                              "Rating " + movies.rating,
+                              style: CustomStyles.movieDetail,
+                            ),
+                            new Text(movies.year.toString(),
+                                style: CustomStyles.movieDetail),
+                          ],
+                        )),
+                    new Text(
+                      movies.descriptionFull,
+                      style: CustomStyles.movieDetail,
+                    ),
+                    new GridView.builder(
+                        gridDelegate:
+                            new SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3, childAspectRatio: 1.0),
+                        itemCount: movies.torrents.length,
+                        shrinkWrap: true,
+                        //scrollDirection: Axis.vertical,
+                        itemBuilder: (BuildContext context, int index) {
+                          return new Container(
+                            child: new Padding(
+                              padding: EdgeInsets.all(3.0),
+                              child: new Chip(
+                                padding: EdgeInsets.all(1.0),
+                                avatar:
+                                    new Image.asset("assets/png/magnet.png"),
+                                label: new InkWell(
+                                  child:
+                                      new Text(movies.torrents[index].quality),
+                                  onTap: () {
+                                    _launchInBrowser(magnetPrefix +
+                                        movies.torrents[index].hash);
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ])
+                ])));
+  }
+}

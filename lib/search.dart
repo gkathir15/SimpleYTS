@@ -13,6 +13,7 @@ class SearchList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _SearchState();
 }
+
 class _SearchState extends State<SearchList> {
   final key = GlobalKey<ScaffoldState>();
   final TextEditingController _searchQuery = TextEditingController();
@@ -67,14 +68,14 @@ class _SearchState extends State<SearchList> {
   }
 
   Future<List<Movies>> searchMovies(String query) async {
-    if(!Constants.mapBase.containsKey(query)){
+    if (!Constants.mapBase.containsKey(query)) {
       final response = await http.get(_url + query);
       Map responseMap = json.decode(response.body);
       print(response.body);
       data = new MoviesResponse.fromJson(responseMap);
       Constants.mapBase[query] = data;
-      return data.data.movies;}
-    else
+      return data.data.movies;
+    } else
       return Constants.mapBase[query].data.movies;
   }
 
@@ -89,7 +90,7 @@ class _SearchState extends State<SearchList> {
             autofocus: true,
             textInputAction: TextInputAction.search,
             controller: _searchQuery,
-            style:CustomStyles.appBarStyle,
+            style: CustomStyles.appBarStyle,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: Padding(
@@ -113,13 +114,18 @@ class _SearchState extends State<SearchList> {
     } else if (_searchQuery.text.isEmpty) {
       return CenterTitle('Begin Search by typing on search bar');
     } else {
-      return new GridView.builder(
-          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, childAspectRatio: .60),
-          itemCount: moviesList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return new MovieTile(moviesData: moviesList[index],);
-          });
+      return new Container(
+          color: Colors.black,
+          child: new GridView.builder(
+              physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, childAspectRatio: .60),
+              itemCount: moviesList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return new MovieTile(
+                  moviesData: moviesList[index],
+                );
+              }));
     }
   }
 
@@ -138,6 +144,7 @@ class CenterTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        color: Colors.black,
         padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         alignment: Alignment.center,
         child: Text(

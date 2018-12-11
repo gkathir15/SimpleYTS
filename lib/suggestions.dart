@@ -8,16 +8,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'util/commonHelper.dart';
 
-
 getSuggestions _getsuggestions = new getSuggestions();
-class suggestions extends StatefulWidget {
 
+class suggestions extends StatefulWidget {
   final int movieId;
 
-  getid()
-  {
-    if(movieId!=null||movieId!=0)
-    return movieId;
+  getid() {
+    if (movieId != null || movieId != 0)
+      return movieId;
     else
       return 10;
   }
@@ -25,7 +23,6 @@ class suggestions extends StatefulWidget {
   @override
   getSuggestions createState() => _getsuggestions;
   suggestions({Key key, this.movieId}) : super(key: key);
-
 }
 
 class getSuggestions extends State<suggestions> {
@@ -55,20 +52,27 @@ class getSuggestions extends State<suggestions> {
         centerTitle: true,
         backgroundColor: Colors.black,
       ),
-      body: new GridView.builder(
-          gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, childAspectRatio: .60),
-          itemCount: moviesList.length,
-          addAutomaticKeepAlives: true,
-          itemBuilder: (BuildContext context, int index) {
-            return new MovieTile(moviesData: moviesList[index],);
-          }),
+      body: new Container(
+        color: Colors.black,
+        child: new GridView.builder(
+            physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, childAspectRatio: .60),
+            itemCount: moviesList.length,
+            addAutomaticKeepAlives: true,
+            itemBuilder: (BuildContext context, int index) {
+              return new MovieTile(
+                moviesData: moviesList[index],
+              );
+            }),
+      ),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    _fetchMovies(_getsuggestions.widget!=null?_getsuggestions.widget.getid():10);
+    _fetchMovies(
+        _getsuggestions.widget != null ? _getsuggestions.widget.getid() : 10);
   }
 }

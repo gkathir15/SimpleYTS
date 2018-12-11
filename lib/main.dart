@@ -34,77 +34,81 @@ class MyGetHttpData extends StatefulWidget {
 // Create the state for our stateful widget
 class MyGetHttpDataState extends State<MyGetHttpData> {
   _fetchMovies(String page) async {
-      final response = await http.get(url + page);
-      Map responseMap = json.decode(response.body);
-      commonHelper.prettyPrint(response.body);
-      setState(() {
-        data = new MoviesResponse.fromJson(responseMap);
-        moviesList.addAll(data.data.movies);
-        mLimit = mLimit + data.data.limit;
-         mPage = data.data.pageNumber++;
-        
-      });
-    }
-
-
-
-
-    @override
-    Widget build(BuildContext context) {
-      return new Scaffold(
-        bottomNavigationBar: new BottomNavigationBar(
-          currentIndex: _currentIndex ,
-          onTap: (_currentIndex){
-            if(_currentIndex ==1)
-              _currentIndex =2;
-            else
-              _currentIndex =1;
-          },
-          items: <BottomNavigationBarItem>[new BottomNavigationBarItem(icon: new Icon(Icons.movie),title: new Text('Movies')),new BottomNavigationBarItem(icon: new Icon(Icons.star),title: new Text('Favourites'))],),
-        appBar: new AppBar(
-          centerTitle: true,
-          title: new Text(
-            "YTS Browse Movies",
-            style: CustomStyles.appBarStyle,
-          ),
-          backgroundColor: Colors.black,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search,color: Colors.white,),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SearchList(),
-                      ));
-                }
-                ),
-          ],
-        ),
-        // Create a Listview and load the data when available
-        body: new GridView.builder(
-            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, childAspectRatio: .60),
-            itemCount: mLimit,
-            itemBuilder: (BuildContext context, int index) {
-              if (index == mLimit - 10) {
-                _fetchMovies((mPage++).toString());
-              }
-              return new MovieTile(moviesData: moviesList[index],);
-            }),
-      );
-    }
-
-    @override
-    void initState() {
-      super.initState();
-      // Call the getJSONData() method when the app initializes
-      this._fetchMovies(mPage.toString());
-      print("app init");
-    }
+    final response = await http.get(url + page);
+    Map responseMap = json.decode(response.body);
+    commonHelper.prettyPrint(response.body);
+    setState(() {
+      data = new MoviesResponse.fromJson(responseMap);
+      moviesList.addAll(data.data.movies);
+      mLimit = mLimit + data.data.limit;
+      mPage = data.data.pageNumber++;
+    });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+//      bottomNavigationBar: new BottomNavigationBar(
+//        currentIndex: _currentIndex,
+//        onTap: (_currentIndex) {
+//          if (_currentIndex == 1)
+//            _currentIndex = 2;
+//          else
+//            _currentIndex = 1;
+//        },
+//        items: <BottomNavigationBarItem>[
+//          new BottomNavigationBarItem(
+//              icon: new Icon(Icons.movie), title: new Text('Movies')),
+//          new BottomNavigationBarItem(
+//              icon: new Icon(Icons.star), title: new Text('Favourites'))
+//        ],
+//      ),
+      appBar: new AppBar(
+        centerTitle: true,
+        title: new Text(
+          "YTS Browse Movies",
+          style: CustomStyles.appBarStyle,
+        ),
+        backgroundColor: Colors.black,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchList(),
+                    ));
+              }),
+        ],
+      ),
+      // Create a Listview and load the data when available
+      body: new Container(
+          color: Colors.black,
+          child: new GridView.builder(
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, childAspectRatio: .65),
+              itemCount: mLimit,
+              physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+              itemBuilder: (BuildContext context, int index) {
+                if (index == mLimit - 10) {
+                  _fetchMovies((mPage++).toString());
+                }
+                return new MovieTile(
+                  moviesData: moviesList[index],
+                );
+              })),
+    );
+  }
 
-
-
-
+  @override
+  void initState() {
+    super.initState();
+    // Call the getJSONData() method when the app initializes
+    this._fetchMovies(mPage.toString());
+    print("app init");
+  }
+}
