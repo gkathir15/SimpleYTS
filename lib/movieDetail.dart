@@ -9,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'styles/customStyles.dart';
 import 'dart:io';
 import 'suggestions.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
+import 'package:codelab_01/youtubePage.dart';
 
 final String id = "";
 String magnetPrefix = 'magnet:?xt=urn:btih:';
@@ -25,36 +27,46 @@ class MovieDetail extends StatelessWidget {
     }
   }
 
+  String youtubeId(Movies movies){
+    String id = "B2EI65ZEqYQ";
+    if(movies.ytTrailerCode!=null&&movies.ytTrailerCode!="")
+    id = movies.ytTrailerCode; 
+
+    return id;
+  }
+
+ 
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.black,
-          title: Text(
-            movies.title,
-            style: CustomStyles.appBarStyle,
-          ),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.more,color: Colors.white,),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => suggestions(movieId:movies.id),
-                      ));
-                }
+        return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.black,
+              title: Text(
+                movies.title,
+                style: CustomStyles.appBarStyle,
+              ),
+              actions: <Widget>[
+                IconButton(icon: Icon(Icons.videocam),onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) =>Youtube(id: youtubeId(movies),)));
+                },),
+                IconButton(
+                    icon: Icon(Icons.more,color: Colors.white,),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => suggestions(movieId:movies.id),
+                          ));
+                    }
+                ),
+              ],
             ),
-          ],
-        ),
-        body: new SingleChildScrollView(
-
-    child: new ConstrainedBox(
+            body: new SingleChildScrollView(child: new ConstrainedBox(
     constraints: new BoxConstraints(minHeight: 300.00,maxHeight: 1000.00),
             //color: Colors.black54,
-            child: new Column(children: <Widget>[
-              new Row(
+            child: new Column(children: <Widget>[              new Row(
                 children: <Widget>[
                   new Image.network(movies.mediumCoverImage),
                   new Padding(

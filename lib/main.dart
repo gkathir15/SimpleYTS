@@ -18,6 +18,7 @@ MoviesResponse data;
 List moviesList = new List();
 int mPage = 1;
 int mLimit = 0;
+int _currentIndex = 0;
 String gifUrl = "https://media.giphy.com/media/o0vwzuFwCGAFO/giphy.gif";
 
 Set<Movies> _filteredMovies = new Set();
@@ -40,9 +41,8 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
         data = new MoviesResponse.fromJson(responseMap);
         moviesList.addAll(data.data.movies);
         mLimit = mLimit + data.data.limit;
-        if (data.data.pageNumber != 1) {
-          mPage = mPage + data.data.pageNumber;
-        }
+         mPage = data.data.pageNumber++;
+        
       });
     }
 
@@ -52,7 +52,15 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
     @override
     Widget build(BuildContext context) {
       return new Scaffold(
-        bottomNavigationBar: new BottomNavigationBar(items: <BottomNavigationBarItem>[new BottomNavigationBarItem(icon: new Icon(Icons.movie),title: new Text('Movies')),new BottomNavigationBarItem(icon: new Icon(Icons.star),title: new Text('Favourites'))],),
+        bottomNavigationBar: new BottomNavigationBar(
+          currentIndex: _currentIndex ,
+          onTap: (_currentIndex){
+            if(_currentIndex ==1)
+              _currentIndex =2;
+            else
+              _currentIndex =1;
+          },
+          items: <BottomNavigationBarItem>[new BottomNavigationBarItem(icon: new Icon(Icons.movie),title: new Text('Movies')),new BottomNavigationBarItem(icon: new Icon(Icons.star),title: new Text('Favourites'))],),
         appBar: new AppBar(
           centerTitle: true,
           title: new Text(
