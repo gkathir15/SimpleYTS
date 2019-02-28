@@ -41,7 +41,7 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
       data = new MoviesResponse.fromJson(responseMap);
       moviesList.addAll(data.data.movies);
       mLimit = mLimit + data.data.limit;
-      mPage = data.data.pageNumber++;
+      mPage = data.data.pageNumber+1;
     });
   }
 
@@ -88,20 +88,30 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
       // Create a Listview and load the data when available
       body: new Container(
           color: Colors.black,
-          child: new GridView.builder(
-              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: .65),
-              itemCount: mLimit,
-              physics: ScrollPhysics(parent: BouncingScrollPhysics()),
-              itemBuilder: (BuildContext context, int index) {
-                if (index == mLimit - 10) {
-                  _fetchMovies((mPage++).toString());
-                }
-                return new MovieTile(
-                  moviesData: moviesList[index],
-                );
-              })),
+      child: StreamBuilder(
+        stream: moviesList,
+            builder:(BuildContext context, AsyncSnapshot<int> snapshot) {
+                     return new GridView.builder(
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3, childAspectRatio: .65),
+                itemCount: mLimit,
+                physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == mLimit - 10) {
+                    _fetchMovies((mPage++).toString());
+                  }
+                  return new MovieTile(
+                    moviesData: moviesList[index],
+                  );
+                }),},
+          )),
     );
+  }
+
+
+  @override
+  void didUpdateWidget(MyGetHttpData oldWidget) {
+
   }
 
   @override
@@ -110,5 +120,29 @@ class MyGetHttpDataState extends State<MyGetHttpData> {
     // Call the getJSONData() method when the app initializes
     this._fetchMovies(mPage.toString());
     print("app init");
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    print("reassemble");
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+    print("setState");
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("deactivate");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("dispose");
   }
 }
